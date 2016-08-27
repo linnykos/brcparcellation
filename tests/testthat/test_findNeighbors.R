@@ -31,3 +31,32 @@ test_that("using box, it gives a proper box", {
   expect_true(length(res) == 27)
   expect_true(all(mat[res] == 1))
 })
+
+##########################
+
+## test findNeighborVoxels
+
+test_that("it returns a list of the correct length, one per voxel",{
+  parcellation <- brcbase::BrcParcellation(c(3,3,3), 1:27)
+  res <- findNeighborVoxels(parcellation)
+  
+  expect_true(length(res) == 27)
+})
+
+test_that("it returns voxels that are indeed neighbors", {
+  parcellation <- brcbase::BrcParcellation(c(3,3,3), 1:27)
+  res <- findNeighborVoxels(parcellation)
+  
+  for(i in 1:length(res)){
+    mat <- sapply(res[[i]], brcbase::voxelIdxTo3D, dim3d = parcellation$dim3d)
+    loc <- brcbase::voxelIdxTo3D(parcellation$dim3d, 
+      as.numeric(names(res)[i]))
+    
+    dif <- apply(mat, 2, function(x){x - loc})
+    expect_true(all(dif >= -1))
+    expect_true(all(dif <= 1))
+    
+    difColSum <- apply(dif, 2, function(x){sum(abs(x))})
+    expect_true(any(difColSum == 0))
+  }
+})

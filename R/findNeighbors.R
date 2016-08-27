@@ -1,9 +1,20 @@
-findNeighborVoxels <- function(parcellation, include.boundary = F){
+findNeighborVoxels <- function(parcellation, include.boundary = F,
+  shape.mat = neighborShape_Box27()){
   if(class(parcellation) != "BrcParcellation")
     stop("parcellation must be of class BrcParcellation")
   if(!brcbase::isValid(parcellation))
     stop("parcellation must be a valid BrcParcellation")
   
+  dim1 <- 1:parcellation$dim3d[1]
+  dim2 <- 1:parcellation$dim3d[2]
+  dim3 <- 1:parcellation$dim3d[3]
+  
+  grid <- expand.grid(dim1, dim2, dim3)
+  func <- .neighborShapeClosure(parcellation$dim3d, shape.mat)
+  lis <- apply(grid, 1, func)
+  names(lis) <- 1:nrow(grid)
+  
+  lis
 }
 
 findNeighborParcels <- function(parcellation, include.boundary = F){
@@ -20,8 +31,6 @@ findNeighborParcels <- function(parcellation, include.boundary = F){
     length(idx) == 1)
   stopifnot(class(parcellation) == "BrcParcellation")
   
-  vec <- brcbase::convertVoxelIndexto3D(parcellation$dim3d, idx)
-  
 }
 
 .neighborShapeClosure <- function(dim3d, shape.mat){
@@ -32,14 +41,14 @@ findNeighborParcels <- function(parcellation, include.boundary = F){
     stopifnot(length(vec) == 3)
     
     mat <- apply(shape.mat, 1, function(x){x+vec})
-    mat[,1][mat[,1] < 1] <- 1
-    mat[,1][mat[,1] > dim3d[1]] <- dim3d[1]
-    mat[,2][mat[,2] < 1] <- 1
-    mat[,2][mat[,2] > dim3d[2]] <- dim3d[2]
-    mat[,3][mat[,3] < 1] <- 1
-    mat[,3][mat[,3] > dim3d[3]] <- dim3d[3]
-    
-    idx.vec <- apply(mat, 2, brcbase::convertVoxel3DtoIndex, dim3d = dim3d)
+    mat[1,][mat[1,] < 1] <- 1
+    mat[1,][mat[1,] > dim3d[1]] <- dim3d[1]
+    mat[2,][mat[2,] < 1] <- 1
+    mat[2,][mat[2,] > dim3d[2]] <- dim3d[2]
+    mat[3,][mat[3,] < 1] <- 1
+    mat[3,][mat[3,] > dim3d[3]] <- dim3d[3]
+
+    idx.vec <- apply(mat, 2, brcbase::voxel3DToIdx, dim3d = dim3d)
     unique(sort(idx.vec))
   }
   
