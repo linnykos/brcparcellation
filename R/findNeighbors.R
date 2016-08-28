@@ -1,4 +1,4 @@
-findNeighborVoxels <- function(parcellation, include.boundary = F,
+.findNeighborVoxels <- function(parcellation, include.boundary = F,
   shape.mat = neighborShape_Box27()){
   if(class(parcellation) != "BrcParcellation")
     stop("parcellation must be of class BrcParcellation")
@@ -31,6 +31,10 @@ findNeighborParcels <- function(parcellation, include.boundary = F){
     length(idx) == 1)
   stopifnot(class(parcellation) == "BrcParcellation")
   
+}
+
+.convertIdx2Parcel <- function(vec, partition){
+  sort(unique(partition[vec]))
 }
 
 .neighborShapeClosure <- function(dim3d, shape.mat){
