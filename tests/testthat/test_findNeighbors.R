@@ -34,18 +34,18 @@ test_that("using box, it gives a proper box", {
 
 ##########################
 
-## test .findNeighborVoxels
+## test neighborVoxel2Voxel
 
 test_that("it returns a list of the correct length, one per voxel",{
   parcellation <- brcbase::BrcParcellation(c(3,3,3), 1:27)
-  res <- .findNeighborVoxels(parcellation)
+  res <- neighborVoxel2Voxel(parcellation)
   
   expect_true(length(res) == 27)
 })
 
 test_that("it returns voxels that are indeed neighbors", {
   parcellation <- brcbase::BrcParcellation(c(3,3,3), 1:27)
-  res <- .findNeighborVoxels(parcellation)
+  res <- neighborVoxel2Voxel(parcellation)
   
   for(i in 1:length(res)){
     mat <- sapply(res[[i]], brcbase::voxelIdxTo3D, dim3d = parcellation$dim3d)
