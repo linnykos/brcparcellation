@@ -43,6 +43,20 @@ test_that("it works on slice partition", {
   expect_true(all(res[[3]] == 10:27))
 })
 
+###############################
+
+## test neighborParcel2Parcel
+
+test_that("it works on slice partition", {
+  parcellation <- brcbase::BrcParcellation(c(3,3,3), rep(1:3, each = 9))
+  res <- neighborParcel2Parcel(parcellation)
+  
+  expect_true(length(res) == 3)
+  expect_true(all(res[[1]] == 1:2))
+  expect_true(all(res[[2]] == 1:3))
+  expect_true(all(res[[3]] == 2:3))
+})
+
 ############################
 
 ## test .convertIdx2Parcel 

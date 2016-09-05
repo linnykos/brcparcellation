@@ -28,6 +28,10 @@ neighborParcel2Voxel <- function(parcellation, parcel = NA,
 neighborParcel2Parcel <- function(parcellation, parcel = NA,
   shape.mat = neighborShape_Box27()){
   
+  res <- neighborParcel2Voxel(parcellation, parcel, shape.mat)
+  res <- lapply(res, .convertIdx2Parcel, partition = parcellation$partition)
+  
+  res
 }
 
 .convertIdx2Parcel <- function(vec, partition){
