@@ -5,14 +5,16 @@ neighborVoxel2Voxel <- function(parcellation, voxel = NA,
   if(!brcbase::isValid(parcellation))
     stop("parcellation must be a valid BrcParcellation")
   
-  if(any(is.na(voxel))){
+  if(all(is.na(voxel))){
     dim1 <- 1:parcellation$dim3d[1]
     dim2 <- 1:parcellation$dim3d[2]
     dim3 <- 1:parcellation$dim3d[3]
     
     grid <- expand.grid(dim1, dim2, dim3)
   } else {
-    
+    .is.nonNegInteger(voxel, "voxel")
+    if(any(voxel > prod(parcellation$dim3d))) stop(paste("voxel cannot",
+      "contain values larger than prod(parcellation$dim3d)"))
     
     grid <- t(sapply(voxel, brcbase::voxelIdxTo3D, dim3d = parcellation$dim3d)) 
   }

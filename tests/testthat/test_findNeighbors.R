@@ -75,6 +75,24 @@ test_that("it returns the voxel correctly when specified", {
   expect_true(all(res2[[4]] == res[[20]]))
 })
 
+test_that("it fails not given a parcellation", {
+  expect_error(neighborVoxel2Voxel(1:10))
+})
+
+test_that("it fails when given an invalid parcellation", {
+  parcellation <- brcbase::BrcParcellation(c(3,3,3), 1:27)
+  parcellation$dim3d <- c(3,3,4)
+  expect_error(neighborVoxel2Voxel(parcellation))
+})
+
+test_that("it fails when voxel is specified and invalid", {
+  parcellation <- brcbase::BrcParcellation(c(3,3,3), 1:27)
+  expect_error(neighborVoxel2Voxel(parcellation, c(1,5,NA,15)))
+  expect_error(neighborVoxel2Voxel(parcellation, c(-1,5,2)))
+  expect_error(neighborVoxel2Voxel(parcellation, c(1,6,8.2)))
+  expect_error(neighborVoxel2Voxel(parcellation, c(1,5,40)))
+})
+
 ############################
 
 ## test .convertIdx2Parcel 
