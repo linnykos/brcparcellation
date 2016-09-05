@@ -17,3 +17,7 @@ test_that("it errors on decimals", {
   expect_error(.is.nonNegInteger(1:10+.5))
   expect_error(.is.nonNegInteger(c(1,6,4,2.4,2)))
 })
+
+test_that("it errors on duplicates", {
+  expect_error(.is.nonNegInteger(c(1,5,5)))
+})

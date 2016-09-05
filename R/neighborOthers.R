@@ -10,6 +10,19 @@ neighborVoxel2Parcel <- function(parcellation, voxel = NA,
 neighborParcel2Voxel <- function(parcellation, parcel = NA,
   shape.mat = neighborShape_Box27()){
   
+  if(all(is.na(parcel))){
+    parcel <- sort(unique(parcellation$partition))
+  }
+  
+  res <- lapply(1:length(parcel), function(x){
+    idx <- which(parcellation$partition == x)
+    voxelNeigh <- neighborVoxel2Voxel(parcellation, voxel = idx,
+      shape.mat)
+    sort(unique(unlist(voxelNeigh)))
+  })
+  
+  names(res) <- parcel
+  res
 }
 
 neighborParcel2Parcel <- function(parcellation, parcel = NA,

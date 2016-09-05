@@ -102,6 +102,7 @@ test_that("it fails when voxel is specified and invalid", {
   expect_error(neighborVoxel2Voxel(parcellation, c(-1,5,2)))
   expect_error(neighborVoxel2Voxel(parcellation, c(1,6,8.2)))
   expect_error(neighborVoxel2Voxel(parcellation, c(1,5,40)))
+  expect_error(neighborVoxel2Voxel(parcellation, c(1,5,5)))
 })
 
 ############################
