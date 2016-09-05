@@ -61,6 +61,20 @@ test_that("it returns voxels that are indeed neighbors", {
   }
 })
 
+test_that("it returns the voxel correctly when specified", {
+  parcellation <- brcbase::BrcParcellation(c(3,3,3), 1:27)
+  res <- neighborVoxel2Voxel(parcellation)
+  res2 <- neighborVoxel2Voxel(parcellation, voxel = c(5,10,15,20))
+  
+  expect_true(length(res2) == 4)
+  expect_true(length(res) == 27)
+  
+  expect_true(all(res2[[1]] == res[[5]]))
+  expect_true(all(res2[[2]] == res[[10]]))
+  expect_true(all(res2[[3]] == res[[15]]))
+  expect_true(all(res2[[4]] == res[[20]]))
+})
+
 ############################
 
 ## test .convertIdx2Parcel 

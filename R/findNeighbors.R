@@ -5,31 +5,23 @@ neighborVoxel2Voxel <- function(parcellation, voxel = NA,
   if(!brcbase::isValid(parcellation))
     stop("parcellation must be a valid BrcParcellation")
   
-  if(is.na(voxel)){
+  if(any(is.na(voxel))){
     dim1 <- 1:parcellation$dim3d[1]
     dim2 <- 1:parcellation$dim3d[2]
     dim3 <- 1:parcellation$dim3d[3]
     
     grid <- expand.grid(dim1, dim2, dim3)
   } else {
-    grid <- sapply() 
+    
+    
+    grid <- t(sapply(voxel, brcbase::voxelIdxTo3D, dim3d = parcellation$dim3d)) 
   }
-  
   
   func <- .neighborShapeClosure(parcellation$dim3d, shape.mat)
   lis <- apply(grid, 1, func)
   names(lis) <- 1:nrow(grid)
   
   lis
-}
-
-findNeighborParcels <- function(parcellation, include.boundary = F){
-  if(class(parcellation) != "BrcParcellation")
-    stop("parcellation must be of class BrcParcellation")
-  if(!brcbase::isValid(parcellation))
-    stop("parcellation must be a valid BrcParcellation")
-  
-  
 }
 
 .formGrid <- function(voxel, dim3d){
