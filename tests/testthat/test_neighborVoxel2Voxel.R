@@ -106,16 +106,6 @@ test_that("it fails when voxel is specified and invalid", {
 
 ############################
 
-## test .convertIdx2Parcel 
-
-test_that("it behaves properly in the simplest setting", {
-  vec <- c(1,5,2)
-  partition <- c(0,0,0,1,2,3,4,5)
-  expect_true(all(.convertIdx2Parcel(vec, partition) == c(0,2)))
-})
-
-############################
-
 ## test .formGrid
 
 test_that("it forms the right grid", {

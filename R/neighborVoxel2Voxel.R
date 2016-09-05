@@ -36,10 +36,6 @@ neighborVoxel2Voxel <- function(parcellation, voxel = NA,
   
 }
 
-.convertIdx2Parcel <- function(vec, partition){
-  sort(unique(partition[vec]))
-}
-
 .neighborShapeClosure <- function(dim3d, shape.mat){
   stopifnot(is.matrix(shape.mat), ncol(shape.mat) == 3)
   stopifnot(length(dim3d) == 3)
