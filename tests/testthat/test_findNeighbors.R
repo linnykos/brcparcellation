@@ -75,6 +75,17 @@ test_that("it returns the voxel correctly when specified", {
   expect_true(all(res2[[4]] == res[[20]]))
 })
 
+test_that("voxels do not necessarily need to be in order", {
+  parcellation <- brcbase::BrcParcellation(c(3,3,3), 1:27)
+  res <- neighborVoxel2Voxel(parcellation, c(1,2,6,10))
+  res2 <- neighborVoxel2Voxel(parcellation, c(10,1,6,2))
+  
+  expect_true(all(res[[1]] == res2[[2]]))
+  expect_true(all(res[[2]] == res2[[4]]))
+  expect_true(all(res[[3]] == res2[[3]]))
+  expect_true(all(res[[4]] == res2[[1]]))
+})
+
 test_that("it fails not given a parcellation", {
   expect_error(neighborVoxel2Voxel(1:10))
 })
@@ -101,4 +112,18 @@ test_that("it behaves properly in the simplest setting", {
   vec <- c(1,5,2)
   partition <- c(0,0,0,1,2,3,4,5)
   expect_true(all(.convertIdx2Parcel(vec, partition) == c(0,2)))
+})
+
+############################
+
+## test .formGrid
+
+test_that("it forms the right grid", {
+  res <- .formGrid(c(3,4,5))
+  
+  expect_true(ncol(res) == 3)
+  expect_true(nrow(res) == prod(3:5))
+  
+  idx <- apply(res, 1, brcbase::voxel3DToIdx, dim3d = c(3,4,5))
+  expect_true(all(sort(idx) == 1:prod(3:5)))
 })

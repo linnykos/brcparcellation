@@ -6,11 +6,8 @@ neighborVoxel2Voxel <- function(parcellation, voxel = NA,
     stop("parcellation must be a valid BrcParcellation")
   
   if(all(is.na(voxel))){
-    dim1 <- 1:parcellation$dim3d[1]
-    dim2 <- 1:parcellation$dim3d[2]
-    dim3 <- 1:parcellation$dim3d[3]
+    grid <- .formGrid(parcellation$dim3d)
     
-    grid <- expand.grid(dim1, dim2, dim3)
   } else {
     .is.nonNegInteger(voxel, "voxel")
     if(any(voxel > prod(parcellation$dim3d))) stop(paste("voxel cannot",
@@ -26,8 +23,10 @@ neighborVoxel2Voxel <- function(parcellation, voxel = NA,
   lis
 }
 
-.formGrid <- function(voxel, dim3d){
+.formGrid <- function(dim3d){
+  dim1 <- 1:dim3d[1]; dim2 <- 1:dim3d[2]; dim3 <- 1:dim3d[3]
   
+  expand.grid(dim1, dim2, dim3)
 }
 
 .findNeighborSingleParcel <- function(idx, parcellation){
