@@ -12,6 +12,10 @@ neighborParcel2Voxel <- function(parcellation, parcel = NA,
   
   if(all(is.na(parcel))){
     parcel <- sort(unique(parcellation$partition))
+  } else {
+    .is.nonNegInteger(parcel, "parcel")
+    if(any(parcel > max(parcellation$partition))) stop(paste("parcel cannot",
+      "contain values larger than max(parcellation$partition)"))
   }
   
   res <- lapply(1:length(parcel), function(x){

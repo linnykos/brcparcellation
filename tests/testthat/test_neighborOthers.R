@@ -29,6 +29,26 @@ test_that("it works on the slice parcellation", {
   }
 })
 
+test_that("it fails not given a parcellation", {
+  expect_error(neighborVoxel2Parcel(1:10))
+})
+
+test_that("it fails when given an invalid parcellation", {
+  parcellation <- brcbase::BrcParcellation(c(3,3,3), 1:27)
+  parcellation$dim3d <- c(3,3,4)
+  expect_error(neighborVoxel2Parcel(parcellation))
+})
+
+test_that("it fails when voxel is specified and invalid", {
+  parcellation <- brcbase::BrcParcellation(c(3,3,3), 1:27)
+  expect_error(neighborVoxel2Parcel(parcellation, c(1,5,NA,15)))
+  expect_error(neighborVoxel2Parcel(parcellation, c(-1,5,2)))
+  expect_error(neighborVoxel2Parcel(parcellation, c(1,6,8.2)))
+  expect_error(neighborVoxel2Parcel(parcellation, c(1,5,40)))
+  expect_error(neighborVoxel2Parcel(parcellation, c(1,5,5)))
+})
+
+
 ############################
 
 ## test neighborParcel2Voxel
@@ -43,6 +63,26 @@ test_that("it works on slice partition", {
   expect_true(all(res[[3]] == 10:27))
 })
 
+test_that("it fails not given a parcellation", {
+  expect_error(neighborParcel2Voxel(1:10))
+})
+
+test_that("it fails when given an invalid parcellation", {
+  parcellation <- brcbase::BrcParcellation(c(3,3,3), 1:27)
+  parcellation$dim3d <- c(3,3,4)
+  expect_error(neighborParcel2Voxel(parcellation))
+})
+
+test_that("it fails when voxel is specified and invalid", {
+  parcellation <- brcbase::BrcParcellation(c(3,3,3), rep(1:3, each = 9))
+  expect_error(neighborParcel2Voxel(parcellation, c(1,2,NA)))
+  expect_error(neighborParcel2Voxel(parcellation, c(-1,2,3)))
+  expect_error(neighborParcel2Voxel(parcellation, c(1,2,2.1)))
+  expect_error(neighborParcel2Voxel(parcellation, c(1,2,4)))
+  expect_error(neighborParcel2Voxel(parcellation, c(1,2,2)))
+})
+
+
 ###############################
 
 ## test neighborParcel2Parcel
@@ -56,6 +96,26 @@ test_that("it works on slice partition", {
   expect_true(all(res[[2]] == 1:3))
   expect_true(all(res[[3]] == 2:3))
 })
+
+test_that("it fails not given a parcellation", {
+  expect_error(neighborParcel2Parcel(1:10))
+})
+
+test_that("it fails when given an invalid parcellation", {
+  parcellation <- brcbase::BrcParcellation(c(3,3,3), 1:27)
+  parcellation$dim3d <- c(3,3,4)
+  expect_error(neighborParcel2Parcel(parcellation))
+})
+
+test_that("it fails when voxel is specified and invalid", {
+  parcellation <- brcbase::BrcParcellation(c(3,3,3), rep(1:3, each = 9))
+  expect_error(neighborParcel2Parcel(parcellation, c(1,2,NA)))
+  expect_error(neighborParcel2Parcel(parcellation, c(-1,2,3)))
+  expect_error(neighborParcel2Parcel(parcellation, c(1,2,2.1)))
+  expect_error(neighborParcel2Parcel(parcellation, c(1,2,4)))
+  expect_error(neighborParcel2Parcel(parcellation, c(1,2,2)))
+})
+
 
 ############################
 
