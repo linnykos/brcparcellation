@@ -19,7 +19,7 @@ neighborParcel2Voxel <- function(parcellation, parcel = NA,
   }
   
   res <- lapply(1:length(parcel), function(x){
-    idx <- which(parcellation$partition == x)
+    idx <- which(parcellation$partition == parcel[x])
     voxelNeigh <- neighborVoxel2Voxel(parcellation, voxel = idx,
       shape.mat)
     sort(unique(unlist(voxelNeigh)))
@@ -33,6 +33,8 @@ neighborParcel2Parcel <- function(parcellation, parcel = NA,
   shape.mat = neighborShape_Box27()){
   
   res <- neighborParcel2Voxel(parcellation, parcel, shape.mat)
+  #print(res)
+  
   res <- lapply(res, .convertIdx2Parcel, partition = parcellation$partition)
   
   res

@@ -83,6 +83,19 @@ test_that("it works on slice partition", {
   expect_true(all(res[[1]] == 1:18))
   expect_true(all(res[[2]] == 1:27))
   expect_true(all(res[[3]] == 10:27))
+  expect_true(all(names(res) == as.character(1:3)))
+})
+
+test_that("it works on parcellations with empty voxels", {
+  parcellation <- brcbase::BrcParcellation(c(3,3,3), 
+    c(rep(c(0:2,2:0), times = 4), 0:2))
+  res <- neighborParcel2Voxel(parcellation)
+  
+  expect_true(length(res) == 3)
+  expect_true(all(names(res) == as.character(0:2)))
+  for(i in 1:3){
+    expect_true(all(res[[i]] == 1:27))
+  }  
 })
 
 test_that("it fails not given a parcellation", {
@@ -117,6 +130,20 @@ test_that("it works on slice partition", {
   expect_true(all(res[[1]] == 1:2))
   expect_true(all(res[[2]] == 1:3))
   expect_true(all(res[[3]] == 2:3))
+  expect_true(all(names(res) == as.character(1:3)))
+})
+
+
+test_that("it works when some voxels are empty", {
+  parcellation <- brcbase::BrcParcellation(c(3,3,3), 
+    c(rep(c(0:2,2:0), times = 4), 0:2))
+  res <- neighborParcel2Parcel(parcellation)
+  
+  expect_true(length(res) == 3)
+  expect_true(all(names(res) == as.character(0:2)))
+  for(i in 1:3){
+    expect_true(all(res[[i]] == 0:2))
+  }
 })
 
 test_that("it fails not given a parcellation", {
