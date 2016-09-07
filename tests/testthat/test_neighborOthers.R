@@ -98,6 +98,20 @@ test_that("it works on parcellations with empty voxels", {
   }  
 })
 
+test_that("it works on the block parcellation", {
+  mat <- array(0, rep(5,3))
+  mat[2:4,2:4,2:4] <- 1
+  mat[3,3,3] <- 2
+  parcellation <- brcbase::buildBrcParcellation(mat)
+  res <- neighborParcel2Voxel(parcellation)
+  
+  expect_true(length(res) == 3)
+  expect_true(all(names(res) == as.character(0:2)))
+  expect_true(all(res[[2]] == 1:125))
+  expect_true(length(res[[1]]) == 125-1)
+  expect_true(length(res[[3]]) == 27)
+})
+
 test_that("it fails not given a parcellation", {
   expect_error(neighborParcel2Voxel(1:10))
 })

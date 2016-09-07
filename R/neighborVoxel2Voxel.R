@@ -16,11 +16,20 @@ neighborVoxel2Voxel <- function(parcellation, voxel = NA,
     grid <- t(sapply(voxel, brcbase::voxelIdxTo3D, dim3d = parcellation$dim3d)) 
   }
   
+  grid <- .splitIntoRows(grid)
   func <- .neighborShapeClosure(parcellation$dim3d, shape.mat)
-  lis <- apply(grid, 1, func)
-  names(lis) <- 1:nrow(grid)
+  lis <- lapply(grid, func)
+  
+  names(lis) <- 1:length(grid)
   
   lis
+}
+
+#code to split a matrix into a list of its rows from
+# http://stackoverflow.com/questions/6819804/how-to-convert-a-matrix-to-a-list-of-column-vectors-in-r
+# Thanks google!
+.splitIntoRows <- function(mat){
+  lapply(seq_len(nrow(mat)), function(i) as.numeric(mat[i,]))
 }
 
 .formGrid <- function(dim3d){

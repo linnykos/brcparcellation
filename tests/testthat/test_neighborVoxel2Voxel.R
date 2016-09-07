@@ -115,6 +115,19 @@ test_that("it fails when voxel is specified and invalid", {
   expect_error(neighborVoxel2Voxel(parcellation, c(1,5,5)))
 })
 
+test_that("it returns a proper list when testing for parcel 1 on the block",{
+  mat <- array(0, rep(5,3))
+  mat[2:4,2:4,2:4] <- 1
+  mat[3,3,3] <- 2
+  parcellation <- brcbase::buildBrcParcellation(mat)
+  
+  idx <- which(parcellation$partition == 1)
+  res <- neighborVoxel2Voxel(parcellation, voxel = idx)
+  
+  expect_true(length(res) == 26)
+  expect_true(is.list(res))
+})
+
 ############################
 
 ## test .formGrid
