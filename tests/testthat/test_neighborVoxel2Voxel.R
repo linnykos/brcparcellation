@@ -86,6 +86,16 @@ test_that("voxels do not necessarily need to be in order", {
   expect_true(all(res[[4]] == res2[[1]]))
 })
 
+test_that("the singleton parcellation is symmetric", {
+  parcellation <- brcbase::BrcParcellation(c(4,4,4), 1:64)
+  res <- neighborVoxel2Voxel(parcellation)
+  
+  expect_true(length(res) == 64)
+  for(i in 1:31){
+    expect_true(length(res[[i]]) == length(res[[64-i+1]]))
+  }
+})
+
 test_that("it fails not given a parcellation", {
   expect_error(neighborVoxel2Voxel(1:10))
 })

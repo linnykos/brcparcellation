@@ -53,6 +53,28 @@ test_that("it fails when voxel is specified and invalid", {
 
 ## test neighborParcel2Voxel
 
+test_that("it works on singleton partition", {
+  parcellation <- brcbase::BrcParcellation(c(3,3,3), 1:27)
+  res <- neighborParcel2Voxel(parcellation)
+
+  expect_true(length(res) == 27)
+  expect_true(all(res[[1]] == c(1,2,4,5, 10, 11, 13, 14)))
+  expect_true(all(res[[5]] == 1:18))
+  expect_true(all(res[[14]] == 1:27))
+  expect_true(all(res[[23]] == 10:27))
+  expect_true(all(res[[27]] == c(14,15,17,18,23,24,26,27)))
+})
+
+test_that("the singleton parcellation is symmetric", {
+  parcellation <- brcbase::BrcParcellation(c(4,4,4), 1:64)
+  res <- neighborParcel2Voxel(parcellation)
+  
+  expect_true(length(res) == 64)
+  for(i in 1:31){
+    expect_true(length(res[[i]]) == length(res[[64-i+1]]))
+  }
+})
+
 test_that("it works on slice partition", {
   parcellation <- brcbase::BrcParcellation(c(3,3,3), rep(1:3, each = 9))
   res <- neighborParcel2Voxel(parcellation)
