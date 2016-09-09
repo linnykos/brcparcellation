@@ -41,6 +41,7 @@ test_that("it returns a list of the correct length, one per voxel",{
   res <- neighborVoxel2Voxel(parcellation)
   
   expect_true(length(res) == 27)
+  expect_true(all(names(res) == as.character(1:27)))
 })
 
 test_that("it returns voxels that are indeed neighbors", {

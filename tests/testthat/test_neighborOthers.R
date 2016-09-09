@@ -11,6 +11,7 @@ test_that("it works on singleton parcellation", {
   for(i in 1:length(res)){
     expect_true(all(res[[i]] == res2[[i]]))
   }
+  expect_true(all(names(res) == as.character(1:27)))
 })
 
 test_that("it works on the slice parcellation", {
@@ -77,7 +78,21 @@ test_that("it works on singleton partition", {
   expect_true(all(res[[14]] == 1:27))
   expect_true(all(res[[23]] == 10:27))
   expect_true(all(res[[27]] == c(14,15,17,18,23,24,26,27)))
+  expect_true(all(names(res) == as.character(1:27)))
 })
+
+test_that("it works on singleton parcellation", {
+  parcellation <- brcbase::BrcParcellation(c(3,3,3), 1:27)
+  res <- neighborVoxel2Voxel(parcellation)
+  res2 <- neighborVoxel2Parcel(parcellation)
+  
+  expect_true(length(res) == length(res2))
+  for(i in 1:length(res)){
+    expect_true(all(res[[i]] == res2[[i]]))
+  }
+  expect_true(all(names(res) == as.character(1:27)))
+})
+
 
 test_that("the singleton parcellation is symmetric", {
   parcellation <- brcbase::BrcParcellation(c(4,4,4), 1:64)
@@ -110,6 +125,23 @@ test_that("it works on parcellations with empty voxels", {
   for(i in 1:3){
     expect_true(all(res[[i]] == 1:27))
   }  
+})
+
+test_that("it works when parcels are specified", {
+  mat <- array(0, rep(5,3))
+  mat[2:4,2:4,2:4] <- 1
+  mat[3,3,3] <- 2
+  parcellation <- brcbase::buildBrcParcellation(mat)
+  
+  res <- neighborVoxel2Parcel(parcellation)
+  res2 <- neighborVoxel2Parcel(parcellation, c(5,17,30,120))
+  
+  expect_true(length(res2) == 4)
+  expect_true(all(res2[[1]] == res[[5]]))
+  expect_true(all(res2[[2]] == res[[17]]))
+  expect_true(all(res2[[3]] == res[[30]]))
+  expect_true(all(res2[[4]] == res[[120]]))
+  expect_true(all(names(res2) == as.character(c(5,17,30,120))))
 })
 
 test_that("it works on the block parcellation", {
@@ -159,6 +191,22 @@ test_that("it works on slice partition", {
   expect_true(all(res[[2]] == 1:3))
   expect_true(all(res[[3]] == 2:3))
   expect_true(all(names(res) == as.character(1:3)))
+})
+
+
+test_that("it works when parcels are specified", {
+  mat <- array(0, rep(5,3))
+  mat[2:4,2:4,2:4] <- 1
+  mat[3,3,3] <- 2
+  parcellation <- brcbase::buildBrcParcellation(mat)
+  
+  res <- neighborParcel2Parcel(parcellation)
+  res2 <- neighborParcel2Parcel(parcellation, c(0,2))
+  
+  expect_true(length(res2) == 2)
+  expect_true(all(res2[[1]] == res[[1]]))
+  expect_true(all(res2[[2]] == res[[3]]))
+  expect_true(all(names(res2) == as.character(c(0,2))))
 })
 
 
