@@ -9,6 +9,10 @@ neighborVoxel2Parcel <- function(parcellation, voxel = NA,
 
 neighborParcel2Voxel <- function(parcellation, parcel = NA,
   shape.mat = neighborShape_Box27()){
+  if(class(parcellation) != "BrcParcellation")
+    stop("parcellation must be of class BrcParcellation")
+  if(!brcbase::isValid(parcellation))
+    stop("parcellation must be a valid BrcParcellation")
   
   if(all(is.na(parcel))){
     parcel <- sort(unique(parcellation$partition))

@@ -104,6 +104,16 @@ test_that("the singleton parcellation is symmetric", {
   }
 })
 
+test_that("it fails not given a parcellation", {
+  expect_error(neighborParcel2Voxel(1:10))
+})
+
+test_that("it fails when given an invalid parcellation", {
+  parcellation <- brcbase::BrcParcellation(c(3,3,3), 1:27)
+  parcellation$dim3d <- c(3,3,4)
+  expect_error(neighborParcel2Voxel(parcellation))
+})
+
 test_that("it works on slice partition", {
   parcellation <- brcbase::BrcParcellation(c(3,3,3), rep(1:3, each = 9))
   res <- neighborParcel2Voxel(parcellation)
@@ -193,6 +203,15 @@ test_that("it works on slice partition", {
   expect_true(all(names(res) == as.character(1:3)))
 })
 
+test_that("it fails not given a parcellation", {
+  expect_error(neighborParcel2Parcel(1:10))
+})
+
+test_that("it fails when given an invalid parcellation", {
+  parcellation <- brcbase::BrcParcellation(c(3,3,3), 1:27)
+  parcellation$dim3d <- c(3,3,4)
+  expect_error(neighborParcel2Parcel(parcellation))
+})
 
 test_that("it works when parcels are specified", {
   mat <- array(0, rep(5,3))
