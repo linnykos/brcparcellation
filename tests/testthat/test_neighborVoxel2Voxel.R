@@ -141,3 +141,16 @@ test_that("it forms the right grid", {
   idx <- apply(res, 1, brcbase::voxel3DToIdx, dim3d = c(3,4,5))
   expect_true(all(sort(idx) == 1:prod(3:5)))
 })
+
+#############################
+
+## test .splitIntoRows
+
+test_that("it splits properly", {
+  mat <- matrix(1:15, ncol = 5, nrow = 3, byrow = T)
+  res <- .splitIntoRows(mat)
+  expect_true(length(res) == 3)
+  expect_true(all(res[[1]] == 1:5))
+  expect_true(all(res[[2]] == 6:10))
+  expect_true(all(res[[3]] == 11:15))
+})
