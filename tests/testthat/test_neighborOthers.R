@@ -48,7 +48,21 @@ test_that("it fails when voxel is specified and invalid", {
   expect_error(neighborVoxel2Parcel(parcellation, c(1,5,5)))
 })
 
-
+test_that("it works when I specify a particular voxel", {
+  mat <- array(0, rep(5,3))
+  mat[2:4,2:4,2:4] <- 1
+  mat[3,3,3] <- 2
+  parcellation <- brcbase::buildBrcParcellation(mat)
+  
+  res <- neighborVoxel2Parcel(parcellation)
+  res2 <- neighborVoxel2Parcel(parcellation, voxel = c(5,10,15))
+  
+  expect_true(length(res2) == 3)
+  expect_true(all(res2[[1]] == res[[5]]))
+  expect_true(all(res2[[2]] == res[[10]]))
+  expect_true(all(res2[[3]] == res[[15]]))
+  expect_true(all(names(res2) == as.character(c(5,10,15))))
+})
 ############################
 
 ## test neighborParcel2Voxel

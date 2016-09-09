@@ -73,6 +73,7 @@ test_that("it returns the voxel correctly when specified", {
   expect_true(all(res2[[2]] == res[[10]]))
   expect_true(all(res2[[3]] == res[[15]]))
   expect_true(all(res2[[4]] == res[[20]]))
+  expect_true(all(names(res2) == as.character(c(5,10,15,20))))
 })
 
 test_that("voxels do not necessarily need to be in order", {

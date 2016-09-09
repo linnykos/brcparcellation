@@ -7,6 +7,7 @@ neighborVoxel2Voxel <- function(parcellation, voxel = NA,
   
   if(all(is.na(voxel))){
     grid <- .formGrid(parcellation$dim3d)
+    voxel <- 1:prod(parcellation$dim3d)
     
   } else {
     .is.nonNegInteger(voxel, "voxel")
@@ -20,7 +21,7 @@ neighborVoxel2Voxel <- function(parcellation, voxel = NA,
   func <- .neighborShapeClosure(parcellation$dim3d, shape.mat)
   lis <- lapply(grid, func)
   
-  names(lis) <- 1:length(grid)
+  names(lis) <- as.character(voxel)
   
   lis
 }
