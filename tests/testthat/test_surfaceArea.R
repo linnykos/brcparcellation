@@ -10,4 +10,5 @@ test_that("it works as normal", {
   
   expect_true(length(res) == 2)
   expect_true(all(res == c(26,1)))
+  expect_true(all(names(res) == as.character(1:2)))
 })
