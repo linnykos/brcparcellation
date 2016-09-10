@@ -1,21 +1,9 @@
 neighborVoxel2Voxel <- function(parcellation, voxel = NA,
   shape.mat = neighborShape_Box27()){
-  if(class(parcellation) != "BrcParcellation")
-    stop("parcellation must be of class BrcParcellation")
-  if(!brcbase::isValid(parcellation))
-    stop("parcellation must be a valid BrcParcellation")
+  .is.BrcParcellation(parcellation)
   
-  if(all(is.na(voxel))){
-    grid <- .formGrid(parcellation$dim3d)
-    voxel <- 1:prod(parcellation$dim3d)
-    
-  } else {
-    .is.nonNegInteger(voxel, "voxel")
-    if(any(voxel > prod(parcellation$dim3d))) stop(paste("voxel cannot",
-      "contain values larger than prod(parcellation$dim3d)"))
-    
-    grid <- t(sapply(voxel, brcbase::voxelIdxTo3D, dim3d = parcellation$dim3d)) 
-  }
+  grid <- .check.voxel(voxel, parcellation$dim3d)
+  if(all(is.na(voxel))) voxel <- 1:prod(parcellation$dim3d)
   
   grid <- .splitIntoRows(grid)
   func <- .neighborShapeClosure(parcellation$dim3d, shape.mat)
@@ -31,12 +19,6 @@ neighborVoxel2Voxel <- function(parcellation, voxel = NA,
 # Thanks google!
 .splitIntoRows <- function(mat){
   lapply(seq_len(nrow(mat)), function(i) as.numeric(mat[i,]))
-}
-
-.formGrid <- function(dim3d){
-  dim1 <- 1:dim3d[1]; dim2 <- 1:dim3d[2]; dim3 <- 1:dim3d[3]
-  
-  expand.grid(dim1, dim2, dim3)
 }
 
 .findNeighborSingleParcel <- function(idx, parcellation){
