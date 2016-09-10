@@ -11,7 +11,6 @@ neighborParcel2Voxel <- function(parcellation, parcel = NA,
   shape.mat = neighborShape_Box27()){
   .is.BrcParcellation(parcellation)
   parcel <- .check.parcel(parcel, parcellation$partition)
- 
   
   res <- lapply(1:length(parcel), function(x){
     idx <- which(parcellation$partition == parcel[x])
