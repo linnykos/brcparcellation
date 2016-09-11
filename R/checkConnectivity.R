@@ -6,15 +6,9 @@ checkConnectivity <- function(parcellation, parcel = NA,
   
   voxel <- which(parcellation$partition %in% parcel)
   parcel.mapping <- parcellation$partition[voxel]
-  res <- neighborVoxel2Voxel(parcellation, voxel = voxel, 
-    shape.mat = shape.mat)
   
-  connected.bool <- sapply(1:length(res), function(x){
-    if(length(which(parcellation$partition[res[[x]]] == parcel.mapping[x])) <= 1) { 
-      return(FALSE) 
-    } else
-      return(TRUE)
-  })
+  connected.bool <- .checkNeighborSameParcelPerVoxel(parcellation, voxel, 
+    shape.mat)
   
   connected <- sapply(parcel, function(x){
     idx <- which(parcel.mapping == x)
@@ -24,4 +18,17 @@ checkConnectivity <- function(parcellation, parcel = NA,
   names(connected) <- parcel
   
   connected
+}
+
+.checkNeighborSameParcelPerVoxel <- function(parcellation, voxel, shape.mat){
+  res <- neighborVoxel2Voxel(parcellation, voxel = voxel, 
+    shape.mat = shape.mat)
+  
+  sapply(1:length(res), function(x){
+    if(length(which(parcellation$partition[res[[x]]] == 
+        parcellation$partition[voxel[x]])) <= 1) { 
+      return(FALSE) 
+    } else
+      return(TRUE)
+  })
 }
