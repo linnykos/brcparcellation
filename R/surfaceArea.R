@@ -6,13 +6,8 @@ surfaceArea <- function(parcellation, parcel = NA,
  
   voxel <- which(parcellation$partition %in% parcel)
   parcel.mapping <- parcellation$partition[voxel]
-  res <- neighborVoxel2Voxel(parcellation, voxel = voxel, 
-    shape.mat = shape.mat)
   
-  on.boundary <- sapply(res, function(x){
-    if(length(unique(parcellation$partition[x])) > 1) { return(TRUE) } else
-      return(FALSE)
-  })
+  on.boundary <- .numberofNeighborParcelPerVoxel(parcellation, voxel, shape.mat)
   
   surface.vec <- sapply(parcel, function(x){
     sum(on.boundary[which(parcel.mapping == x)])
@@ -22,3 +17,13 @@ surfaceArea <- function(parcellation, parcel = NA,
   surface.vec
 }
 
+.numberofNeighborParcelPerVoxel <- function(parcellation, voxel,
+  shape.mat){
+  res <- neighborVoxel2Voxel(parcellation, voxel = voxel, 
+    shape.mat = shape.mat)
+  
+  sapply(res, function(x){
+    if(length(unique(parcellation$partition[x])) > 1) { return(TRUE) } else
+      return(FALSE)
+  })
+}
