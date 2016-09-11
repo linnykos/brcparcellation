@@ -20,6 +20,21 @@ surfaceArea <- function(parcellation, parcel = NA,
 surfaceAreaNeighborPercentage <- function(parcellation, parcel = NA, 
   shape.mat = neighborShape_Box27()){
   
+  .is.BrcParcellation(parcellation)
+  parcel <- .check.parcel(parcel, parcellation$partition)
+  if(any(parcel == 0)) parcel <- parcel[parcel != 0]
+  
+  res <- neighborParcel2Voxel(parcellation, parcel, shape.mat)
+  
+  percentage <- lapply(1:length(res), function(x){
+    vec <- res[[x]]
+    vec <- vec[parcellation$partition[vec] != as.numeric(names(res)[x])]
+    tab <- table(parcellation$partition[vec])
+    tab/sum(tab)
+  })
+  
+  names(percentage) <- parcel
+  percentage
 }
 
 .multipleParcelPerVoxel <- function(parcellation, voxel,

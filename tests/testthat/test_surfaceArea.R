@@ -91,3 +91,20 @@ test_that("it correctly computes the surface area of a block parcellation", {
   expect_true(all(names(res) == as.character(c(1:2))))
   expect_true(all(res == c(27-8, 8-1)))
 })
+
+#####################################
+
+test_that("it works as planned", {
+  mat <- array(0, rep(5,3))
+  mat[1:3, 1:3, 1:3] <- 1
+  mat[4:5, 4:5, 4:5] <- 2
+  parcellation <- brcbase::buildBrcParcellation(mat)
+  res <- surfaceAreaNeighborPercentage(parcellation)
+  
+  expect_true(length(res) == 2)
+  expect_true(is.list(res))
+  expect_true(length(res[[1]]) == 2)
+  expect_true(all(names(res[[1]]) == as.character(c(0,2))))
+  expect_true(length(res[[2]]) == 2)
+  expect_true(all(names(res[[2]]) == as.character(c(0,1))))
+})
