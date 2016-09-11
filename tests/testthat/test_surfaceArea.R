@@ -70,6 +70,16 @@ test_that("the surface area doesn't change if I rotate the parcellation", {
   expect_true(all(res == res2))
 })
 
+test_that("I can correctly set the parcel", {
+  set.seed(10)
+  partition <- sample(1:3, 64, replace = T) 
+  parcellation <- brcbase::BrcParcellation(c(4,4,4), partition)
+  res <- surfaceArea(parcellation)
+  res2 <- surfaceArea(parcellation, parcel = 3)
+  
+  expect_true(res[3] == res2)
+})
+
 test_that("it correctly computes the surface area of a block parcellation", {
   mat <- array(0, rep(5,3))
   mat[1:3, 1:3, 1:3] <- 1
