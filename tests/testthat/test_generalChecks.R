@@ -79,6 +79,44 @@ test_that("it NOT order the parcels you ask for", {
   
   expect_true(all(res == c(5,2,0,4)))
 })
+
+#######################################
+
+## test .check.voxels
+
+test_that("it returns all the voxels if passed NA", {
+  res <- .check.voxel(NA, c(3,3,3))
+  expect_true(nrow(res) == 27)
+  expect_true(ncol(res) == 3)
+  
+  idx <- apply(res, 1, brcbase::voxel3DToIdx, dim3d = c(3,3,3))
+  expect_true(all(idx == 1:27))
+})
+
+test_that("it fails when voxel is specified and invalid", {
+  dim3d <- c(3,3,3)
+  expect_error(.check.voxel(c(1,5,NA,15), dim3d))
+  expect_error(.check.voxel(c(-1,5,2), dim3d))
+  expect_error(.check.voxel(c(1,6,8.2), dim3d))
+  expect_error(.check.voxel(c(1,5,40), dim3d))
+  expect_error(.check.voxel(c(1,5,5), dim3d))
+})
+
+test_that("it works for the voxels I ask for", {
+  res <- .check.voxel(c(1,5,15), c(3,3,3))
+  idx <- apply(res, 1, brcbase::voxel3DToIdx, dim3d = c(3,3,3))
+  expect_true(all(idx == c(1,5,15)))
+})
+
+test_that("it does NOT order my voxels that I pass in", {
+  res <- .check.voxel(c(1,6,26), c(3,3,3))
+  res2 <- .check.voxel(c(26,1,6), c(3,3,3))
+  
+  expect_true(all(res[1,] == res2[2,]))
+  expect_true(all(res[2,] == res2[3,]))
+  expect_true(all(res[3,] == res2[1,]))
+})
+
 ############################
 
 ## test .formGrid
