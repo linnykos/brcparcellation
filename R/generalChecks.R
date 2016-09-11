@@ -14,6 +14,8 @@
     .is.nonNegInteger(parcel, "parcel")
     if(any(parcel > max(partition))) stop(paste("parcel cannot",
       "contain values larger than max(parcellation$partition)"))
+    if(any(!parcel %in% partition)) stop(paste("all values of parcel",
+      "must be contained in parcellation$partition"))
   }
   
   parcel
