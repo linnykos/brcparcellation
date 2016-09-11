@@ -64,6 +64,17 @@ test_that("it works when I specify a particular voxel", {
   expect_true(all(res2[[3]] == res[[15]]))
   expect_true(all(names(res2) == as.character(c(5,10,15))))
 })
+
+test_that("voxels do not necessarily need to be in order", {
+  parcellation <- brcbase::BrcParcellation(c(3,3,3), 1:27)
+  res <- neighborVoxel2Parcel(parcellation, c(1,2,6,10))
+  res2 <- neighborVoxel2Parcel(parcellation, c(10,1,6,2))
+  
+  expect_true(all(res[[1]] == res2[[2]]))
+  expect_true(all(res[[2]] == res2[[4]]))
+  expect_true(all(res[[3]] == res2[[3]]))
+  expect_true(all(res[[4]] == res2[[1]]))
+})
 ############################
 
 ## test neighborParcel2Voxel
@@ -188,6 +199,18 @@ test_that("it fails when voxel is specified and invalid", {
 })
 
 
+test_that("voxels do not necessarily need to be in order", {
+  parcellation <- brcbase::BrcParcellation(c(3,3,3), 1:27)
+  res <- neighborParcel2Voxel(parcellation, c(1,2,6,10))
+  res2 <- neighborParcel2Voxel(parcellation, c(10,1,6,2))
+  
+  expect_true(all(res[[1]] == res2[[2]]))
+  expect_true(all(res[[2]] == res2[[4]]))
+  expect_true(all(res[[3]] == res2[[3]]))
+  expect_true(all(res[[4]] == res2[[1]]))
+})
+
+
 ###############################
 
 ## test neighborParcel2Parcel
@@ -258,6 +281,17 @@ test_that("it fails when voxel is specified and invalid", {
   expect_error(neighborParcel2Parcel(parcellation, c(1,2,2.1)))
   expect_error(neighborParcel2Parcel(parcellation, c(1,2,4)))
   expect_error(neighborParcel2Parcel(parcellation, c(1,2,2)))
+})
+
+test_that("voxels do not necessarily need to be in order", {
+  parcellation <- brcbase::BrcParcellation(c(3,3,3), 1:27)
+  res <- neighborParcel2Parcel(parcellation, c(1,2,6,10))
+  res2 <- neighborParcel2Parcel(parcellation, c(10,1,6,2))
+  
+  expect_true(all(res[[1]] == res2[[2]]))
+  expect_true(all(res[[2]] == res2[[4]]))
+  expect_true(all(res[[3]] == res2[[3]]))
+  expect_true(all(res[[4]] == res2[[1]]))
 })
 
 
