@@ -106,3 +106,17 @@ test_that("it works on the slice parcellation", {
   expect_true(is.vector(res))
   expect_true(all(res))
 })
+
+test_that("it works on the slice parcellation", {
+  mat <- array(1, rep(3,3))
+  mat[1,1,1] <- 2
+  mat[3,3,3] <- 2
+  
+  parcellation <- brcbase::buildBrcParcellation(mat)
+  res <- .checkNeighborSameParcelPerVoxel(parcellation, voxel = c(1, 2, 27),
+    shape.mat = neighborShape_Box27())
+  
+  expect_true(length(res) == 3)
+  expect_true(is.vector(res))
+  expect_true(all(res == c(FALSE, TRUE, FALSE)))
+})
