@@ -92,6 +92,33 @@ test_that("it works on singleton partition", {
   expect_true(all(names(res) == as.character(1:27)))
 })
 
+
+test_that("it works on the joined blocked parcellation", {
+  mat <- array(0, rep(5,3))
+  mat[1:3, 1:3, 1:3] <- 1
+  mat[4:5, 1:2, 1:2] <- 2
+  parcellation <- brcbase::buildBrcParcellation(mat)
+  res <- neighborParcel2Voxel(parcellation)
+  
+  expect_true(length(res) == 3)
+
+  expect_true(length(res[["0"]]) == 125-11)
+  expect_true(length(res[["1"]]) == 4^3)
+  expect_true(length(res[["2"]]) == 3^3)
+})
+
+test_that("it works on the separate blocked parcellation", {
+  mat <- array(0, rep(5,3))
+  mat[1:3, 1:3, 1:3] <- 1
+  mat[4:5, 4:5, 4:5] <- 2
+  parcellation <- brcbase::buildBrcParcellation(mat)
+  res <- neighborParcel2Voxel(parcellation)
+  
+  expect_true(length(res[["0"]]) == 125-8-1)
+  expect_true(length(res[["1"]]) == 4^3)
+  expect_true(length(res[["2"]]) == 3^3)
+})
+
 test_that("it works on singleton parcellation", {
   parcellation <- brcbase::BrcParcellation(c(3,3,3), 1:27)
   res <- neighborVoxel2Voxel(parcellation)

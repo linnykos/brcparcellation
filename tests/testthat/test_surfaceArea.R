@@ -94,17 +94,50 @@ test_that("it correctly computes the surface area of a block parcellation", {
 
 #####################################
 
-test_that("it works as planned", {
+test_that("it works as planned for joined block formation", {
+  mat <- array(0, rep(5,3))
+  mat[1:3, 1:3, 1:3] <- 1
+  mat[4:5, 1:2, 1:2] <- 2
+  parcellation <- brcbase::buildBrcParcellation(mat)
+  res <- surfaceAreaNeighborPercentage(parcellation)
+  
+  expect_true(length(res) == 2)
+  expect_true(is.list(res))
+  expect_true(all(names(res) == as.character(c(1,2))))
+  
+  expect_true(length(res[[1]]) == 2)
+  expect_true(all(names(res[[1]]) == as.character(c(0,2))))
+  expect_true(sum(abs((res[[1]] - c(1-4/(4^3-3^3), 4/(4^3-3^3))))) < 1e-4)
+  
+  expect_true(length(res[[2]]) == 2)
+  expect_true(all(names(res[[2]]) == as.character(c(0,1))))
+  expect_true(sum(abs(res[[2]] - c(1-9/(3^3-2^3), 9/(3^3-2^3)))) < 1e-4)
+})
+
+test_that("it works as for corner block formation", {
   mat <- array(0, rep(5,3))
   mat[1:3, 1:3, 1:3] <- 1
   mat[4:5, 4:5, 4:5] <- 2
   parcellation <- brcbase::buildBrcParcellation(mat)
   res <- surfaceAreaNeighborPercentage(parcellation)
   
-  expect_true(length(res) == 2)
-  expect_true(is.list(res))
-  expect_true(length(res[[1]]) == 2)
-  expect_true(all(names(res[[1]]) == as.character(c(0,2))))
-  expect_true(length(res[[2]]) == 2)
-  expect_true(all(names(res[[2]]) == as.character(c(0,1))))
+  expect_true(sum(abs(res[["1"]] - c(1-1/(4^3-3^3), 1/(4^3-3^3)))) < 1e-4)
+  expect_true(sum(abs(res[["2"]] - c(1-1/(3^3-2^3), 1/(3^3-2^3)))) < 1e-4)
 })
+
+test_that("it works on the slice parcellation", {
+  parcellation <- brcbase::BrcParcellation(c(3,3,3), rep(1:3, each = 9))
+  res <- surfaceAreaNeighborPercentage(parcellation)
+  
+  expect_true(length(res) == 3)
+  expect_true(is.list(res))
+  
+  expect_true(res[[1]] == 1)
+  expect_true(all(res[[2]] == c(0.5,0.5)))
+  expect_true(res[[3]] == 1)
+})
+
+################################
+
+## test .multipleParcelPerVoxel
+
