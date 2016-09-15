@@ -92,3 +92,17 @@ test_that("it is affected by shape.mat", {
   expect_true(res)
   expect_true(!res2)
 })
+
+####################################
+
+## test .checkNeighborSameParcelPerVoxel
+
+test_that("it works on the slice parcellation", {
+  parcellation <- brcbase::BrcParcellation(c(3,3,3), rep(1:3, each = 9))
+  res <- .checkNeighborSameParcelPerVoxel(parcellation, voxel = c(1, 27),
+    shape.mat = neighborShape_Box27())
+  
+  expect_true(length(res) == 2)
+  expect_true(is.vector(res))
+  expect_true(all(res))
+})
