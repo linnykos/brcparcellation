@@ -137,7 +137,29 @@ test_that("it works on the slice parcellation", {
   expect_true(res[[3]] == 1)
 })
 
+test_that("it can handle specific parcels", {
+  set.seed(10)
+  parcellation <- brcbase::BrcParcellation(c(5,5,5), 
+    sample(1:5, 125, replace = T))
+  res <- surfaceAreaNeighborPercentage(parcellation)
+  res2 <- surfaceAreaNeighborPercentage(parcellation, parcel = c(3,5))
+  
+  expect_true(length(res2) == 2)
+  expect_true(all(res[["3"]] == res2[["3"]]))
+  expect_true(all(res[["5"]] == res2[["5"]]))
+})
+
 ################################
 
 ## test .multipleParcelPerVoxel
 
+test_that("it works as for corner block formation", {
+  mat <- array(0, rep(5,3))
+  mat[1:3, 1:3, 1:3] <- 1
+  mat[4:5, 4:5, 4:5] <- 2
+  parcellation <- brcbase::buildBrcParcellation(mat)
+  res <- .multipleParcelPerVoxel(parcellation, voxel = c(1, 62, 125),
+    shape.mat = neighborShape_Box27())
+  
+  expect_true(all(res == c(FALSE, TRUE, FALSE)))
+})

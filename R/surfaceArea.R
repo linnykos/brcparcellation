@@ -37,8 +37,7 @@ surfaceAreaNeighborPercentage <- function(parcellation, parcel = NA,
   percentage
 }
 
-.multipleParcelPerVoxel <- function(parcellation, voxel,
-  shape.mat){
+.multipleParcelPerVoxel <- function(parcellation, voxel, shape.mat){
   res <- neighborVoxel2Voxel(parcellation, voxel = voxel, 
     shape.mat = shape.mat)
   
