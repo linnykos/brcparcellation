@@ -26,4 +26,11 @@ hammingDistance <- function(parcellation1, parcellation2,
 .generatePairs <- function(numPairs, vec){
   pairs <- cbind(sample(vec, numPairs, replace = T), 
     sample(vec, numPairs, replace = T))
+  
+  .checkPairs(pairs)
+}
+
+#currently: only removes pairs of points compared with themselves
+.checkPairs <- function(mat){
+  mat <- mat[-which(mat[,1] == mat[,2]),]
 }
