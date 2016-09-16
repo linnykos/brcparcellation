@@ -10,7 +10,8 @@ Encoding: UTF-8
 LazyData: true
 Imports:
     brcbase,
-    igraph
+    igraph,
+    plyr
 Suggests:
     testthat
 RoxygenNote: 5.0.1

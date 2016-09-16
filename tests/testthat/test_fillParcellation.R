@@ -73,6 +73,13 @@ test_that("it can split a 5-dim cube perfectly",{
       length(which(res$partition == 2)))
 })
 
+test_that("if already filled, it returns the same parcellation back",{
+  parcellation <- brcbase::BrcParcellation(c(3,3,3), 1:27)
+  res <- fillParcellation(parcellation)
+  
+  expect_true(all(res$dim3d == parcellation$dim3d))
+  expect_true(all(res$partition == parcellation$partition))
+})
 
 test_that("it fails not given a parcellation", {
   expect_error(fillParcellation(1:10))
