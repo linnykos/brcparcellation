@@ -65,3 +65,27 @@ test_that("hamming dist between single parcellation and the singleton is 0", {
   
   expect_true(res == 0)
 })
+
+
+test_that("it fails for non-BrcParcellation objects", {
+  parcellation <- brcbase::BrcParcellation(c(3,3,3), 1:27)
+  
+  expect_error(hammingDistance(matrix(1:100,10,10), parcellation))
+  expect_error(hammingDistance(parcellation, matrix(1:100,10,10)))
+})
+
+test_that("it fails for invalid BrcParcellations", {
+  parcellation <- brcbase::BrcParcellation(c(3,3,3), 1:27)
+  parcellation$dim3d <- c(3,3,4)
+  parcellation2 <- brcbase::BrcParcellation(c(3,3,3), 1:27)
+  
+  expect_error(hammingDistance(parcellation, parcellation2))
+  expect_error(hammingDistance(parcellation2, parcellation))
+})
+
+test_that("it does not work for parcellations of different sizes", {
+  parcellation <- brcbase::BrcParcellation(c(3,3,3), 1:27)
+  parcellation2 <- brcbase::BrcParcellation(c(4,4,4), 1:64)
+  
+  expect_error(hammingDistance(parcellation, parcellation2))
+})
