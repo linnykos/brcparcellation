@@ -58,6 +58,46 @@ test_that("it works on a typical intersection", {
   expect_true(idx4 == 0)
 })
 
+test_that("subset par. of a parcellation returns the exact subset par.",{
+  set.seed(10)
+  vec <- sample(0:5, 125, replace = T)
+  vec2 <- vec
+  idx <- which(vec2 == 0)
+  vec2[idx] <- sample(c(0,6), length(idx), replace = T)
+  
+  parcellation1 <- brcbase::BrcParcellation(rep(5,3), vec)
+  parcellation2 <- brcbase::BrcParcellation(rep(5,3), vec2)
+  
+  res <- intersectParcellation(parcellation1, parcellation2)
+  expect_true(all(res$partition == vec2))
+  
+  res2 <- intersectParcellation(parcellation2, parcellation1)
+  expect_true(all(res2$partition == vec2))
+})
+
+test_that("it fails for non-BrcParcellation objects", {
+  parcellation <- brcbase::BrcParcellation(c(3,3,3), 1:27)
+  
+  expect_error(intersectParcellation(matrix(1:100,10,10), parcellation))
+  expect_error(intersectParcellation(parcellation, matrix(1:100,10,10)))
+})
+
+test_that("it fails for invalid BrcParcellations", {
+  parcellation <- brcbase::BrcParcellation(c(3,3,3), 1:27)
+  parcellation$dim3d <- c(3,3,4)
+  parcellation2 <- brcbase::BrcParcellation(c(3,3,3), 1:27)
+  
+  expect_error(intersectParcellation(parcellation, parcellation2))
+  expect_error(intersectParcellation(parcellation2, parcellation))
+})
+
+test_that("it does not work for parcellations of different sizes", {
+  parcellation <- brcbase::BrcParcellation(c(3,3,3), 1:27)
+  parcellation2 <- brcbase::BrcParcellation(c(4,4,4), 1:64)
+  
+  expect_error(intersectParcellation(parcellation, parcellation2))
+})
+
 ##################################################
 
 ## test .reindex
