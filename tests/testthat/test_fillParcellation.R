@@ -59,3 +59,27 @@ test_that("it works on seperate block parcellation", {
   expect_true(all(res$partition[idx1.vec] == 1))
   expect_true(all(res$partition[idx2.vec] == 2))
 })
+
+test_that("it can split a 5-dim cube perfectly",{
+  mat <- array(0, rep(4,3))
+  mat[,,1] <- 1
+  mat[,,4] <- 2
+  parcellation <- brcbase::buildBrcParcellation(mat)
+ 
+  set.seed(10)
+  res <- fillParcellation(parcellation)
+  
+  expect_true(length(which(res$partition == 1)) == 
+      length(which(res$partition == 2)))
+})
+
+
+test_that("it fails not given a parcellation", {
+  expect_error(fillParcellation(1:10))
+})
+
+test_that("it fails when given an invalid parcellation", {
+  parcellation <- brcbase::BrcParcellation(c(3,3,3), 1:27)
+  parcellation$dim3d <- c(3,3,4)
+  expect_error(fillParcellation(parcellation))
+})
