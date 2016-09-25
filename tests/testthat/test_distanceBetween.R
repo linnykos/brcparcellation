@@ -2,6 +2,17 @@ context("Test distance between")
 
 ## test distanceBetween
 
+test_that("it fails not given a parcellation", {
+  expect_error(distanceBetween(1:10))
+})
+
+test_that("it fails when given an invalid parcellation", {
+  parcellation <- brcbase::BrcParcellation(c(3,3,3), 1:27)
+  parcellation$dim3d <- c(3,3,4)
+  expect_error(distanceBetween(parcellation))
+})
+
+
 test_that("it returns a distance object", {
   mat <- array(0, c(5,5,5))
   mat[1:2,1:2,1:2] <- 1
