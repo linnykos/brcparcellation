@@ -1,3 +1,21 @@
+#' Check the connectivity of parcels in a parcellation
+#' 
+#' This function checks to see if each parcel in a parcellation are connected.
+#' This can be useful is one wants ensure that no parcel consists of two
+#' disjoint sets of voxels. 
+#' 
+#' By default, \code{parcel} is set to \code{NA}, meaning this function will check
+#' every parcel. 
+#' 
+#' This function returns a vector of \code{TRUE}, \code{FALSE} values, one for
+#' each parcel.
+#'
+#' @param parcellation a \code{BrcParcellation} object
+#' @param parcel a vector of indicies of which parcels to check the connectivity of
+#' @param shape.mat the output of \code{neighborShape} function, such as \code{neighborShape_Box27()}
+#'
+#' @return a vector of booleans
+#' @export
 checkConnectivity <- function(parcellation, parcel = NA,
   shape.mat = neighborShape_Box27()){
    .is.BrcParcellation(parcellation)

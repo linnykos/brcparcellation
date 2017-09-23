@@ -33,7 +33,7 @@ test_that("it fails for invalid BrcParcellations", {
   expect_error(checkConnectivity(parcellation))
 })
 
-test_that("it returns an area for 1 for singleton parcellations", {
+test_that("it returns TRUE for singleton parcellations", {
   parcellation <- brcbase::BrcParcellation(c(3,3,3), 1:27)
   res <- checkConnectivity(parcellation)
   
@@ -44,7 +44,8 @@ test_that("it returns an area for 1 for singleton parcellations", {
 
 test_that("it does not change the order of parcellations I pass in", {
   mat <- array(1, rep(5,3))
-  mat[2:4,2:4,2:4] <- 3
+  mat[1:2,1:2,1:2] <- 3
+  mat[4,4,4] <- 3
   mat[3,3,3] <- 2
   parcellation <- brcbase::buildBrcParcellation(mat)
   
