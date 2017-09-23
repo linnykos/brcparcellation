@@ -2,6 +2,8 @@
 
 export(checkConnectivity)
 export(createMask)
+export(distanceBetween)
+export(distance_manhattan)
 export(neighborParcel2Parcel)
 export(neighborParcel2Voxel)
 export(neighborShape_Box27)
