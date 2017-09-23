@@ -2,5 +2,7 @@
 
 export(neighborParcel2Parcel)
 export(neighborParcel2Voxel)
+export(neighborShape_Box27)
+export(neighborShape_Diamond7)
 export(neighborVoxel2Parcel)
 export(neighborVoxel2Voxel)

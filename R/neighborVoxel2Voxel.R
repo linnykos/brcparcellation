@@ -67,6 +67,18 @@ neighborVoxel2Voxel <- function(parcellation, voxel = NA,
   func
 }
 
+#' Neighbor shape for box
+#' 
+#' This is a function needed for many functions such as 
+#' \code{neighborVoxel2Voxel} to determine how neighbors are defined.
+#' This will typically be the \code{shape} argument to many such functions.
+#' 
+#' This shape is defined in such a way that if the voxel in question is
+#' the middle voxel of a 3x3x3 cube, all the voxels consisting of the 3x3x3
+#' cube are the neighboring voxels.
+#'
+#' @return a matrix with 3 columns
+#' @export
 neighborShape_Box27 <- function(){
   matrix(c(0,0,0,
            0,0,1, 0,0,-1,
@@ -84,6 +96,18 @@ neighborShape_Box27 <- function(){
            -1,1,1,  1,-1,-1), ncol = 3, nrow = 27, byrow = T)
 }
 
+#' Neighbor shape for diamond
+#' 
+#' This is a function needed for many functions such as 
+#' \code{neighborVoxel2Voxel} to determine how neighbors are defined.
+#' This will typically be the \code{shape} argument to many such functions.
+#' 
+#' This shape is defined in such a way that if the voxel in question is
+#' a 6-sided die, the neighboring voxels are the 6 voxels immediately bordering
+#' each face of the die.
+#'
+#' @return a matrix with 3 columns
+#' @export
 neighborShape_Diamond7 <- function(){
   matrix(c(0,0,0,
            0,0,1, 0,0,-1,
