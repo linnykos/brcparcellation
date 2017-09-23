@@ -1,4 +1,28 @@
-#pairwise hamming distance
+#' Compute the pairwise distance between two parcellations: Pairwise hamming distance
+#' 
+#' Given two \code{BrcParcellation} objects, \code{parcellation1} and
+#' \code{parcellation2}, compute the pairwise Hamming distance. This is defined the 
+#' following way: for random pairs of voxels (which are assigned to voxels in
+#' both parcellations), count a distance of 0 if both voxels are either in the same
+#' parcel within each parcellation or if both voxels are in different parcels 
+#' within each parcellation, but count a distance of 1 if both voxels are in the
+#' same parcel in one parcellation but in different parcels in the other parcellation.
+#' The distance function then is the average of these (0,1) values over all the
+#' pairs. 
+#' 
+#' This distance is more accurate when \code{numPairs} is larger, at the cost
+#' of more computational time. 
+#'
+#' @param parcellation1 a \code{BrcParcellation} object
+#' @param parcellation2 a \code{BrcParcellation} object
+#' @param numPairs number of pairs of voxels to compute the pairwise hamming distance over
+#'
+#' @source Ben-David, Shai, Ulrike Von Luxburg, and Dávid Pál. 
+#' "A sober look at clustering stability." International Conference on 
+#' Computational Learning Theory. Springer, Berlin, Heidelberg, 2006, (Definition 4)
+#' 
+#' @return a numeric
+#' @export
 hammingDistance <- function(parcellation1, parcellation2, 
   numPairs = 5000){
   
