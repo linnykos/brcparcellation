@@ -1,3 +1,20 @@
+#' Find neighboring voxels for each voxel
+#' 
+#' Given a \code{BrcParcellation} object and a vector of voxels
+#' indices in \code{voxel}, find all the voxels that neighbor each of
+#' the voxels. By default, \code{voxel} is set to \code{NA}, meaning
+#' it finds the neighbor of all voxels.
+#' 
+#' The \code{voxel} vector are indicies referring of specific locations in
+#' \code{parcellation}. They must be positive integers between \code{1} and 
+#' \code{length(parcellation$partition)}.
+#'
+#' @param parcellation a \code{BrcParcellation} object
+#' @param voxel a vector of indicies of which voxels to select the neighbors of
+#' @param shape.mat the output of \code{neighborShape} function, such as \code{neighborShape_Box27()}
+#'
+#' @return A list of integers, one vector per voxel
+#' @export
 neighborVoxel2Voxel <- function(parcellation, voxel = NA,
   shape.mat = neighborShape_Box27()){
   .is.BrcParcellation(parcellation)

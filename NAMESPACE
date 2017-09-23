@@ -3,3 +3,4 @@
 export(neighborParcel2Parcel)
 export(neighborParcel2Voxel)
 export(neighborVoxel2Parcel)
+export(neighborVoxel2Voxel)
