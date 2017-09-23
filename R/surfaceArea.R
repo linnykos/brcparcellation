@@ -1,3 +1,20 @@
+#' Compute the surface area of each parcel
+#' 
+#' This function computes the surface area for each parcel (i.e.,
+#' how many voxels are on the surface of a parcel) and returns it as a 
+#' vector, one number for each parcel. 
+#' 
+#' The definition of which voxel lie
+#' on the surface is dictated by \code{shape.mat}, where a voxel is 
+#' on the surface if one of its neighbors belong to a different parcel or
+#' one of its neighbor is an empty voxel.
+#'
+#' @param parcellation a \code{BrcParcellation} object
+#' @param parcel a vector of indicies of which parcels to compute the surface area for
+#' @param shape.mat the output of \code{neighborShape} function, such as \code{neighborShape_Box27()}
+#'
+#' @return a vector of numerics
+#' @export
 surfaceArea <- function(parcellation, parcel = NA,
   shape.mat = neighborShape_Box27()){
    .is.BrcParcellation(parcellation)
@@ -17,6 +34,25 @@ surfaceArea <- function(parcellation, parcel = NA,
   surface.vec
 }
 
+#' Compute the surface area of each parcel (percentage)
+#' 
+#' This function computes the surface area percentage for each parcel (i.e.,
+#' how many voxels are on the surface of a parcel) and returns it as a 
+#' vector, one number for each parcel. The percentage is defined as
+#' the number of voxels in the parcel that lie on the surface divided
+#' by the number of voxels in the parcel.
+#' 
+#' The definition of which voxel lie
+#' on the surface is dictated by \code{shape.mat}, where a voxel is 
+#' on the surface if one of its neighbors belong to a different parcel or
+#' one of its neighbor is an empty voxel.
+#'
+#' @param parcellation a \code{BrcParcellation} object
+#' @param parcel a vector of indicies of which parcels to compute the surface area for
+#' @param shape.mat the output of \code{neighborShape} function, such as \code{neighborShape_Box27()}
+#'
+#' @return a vector of numerics
+#' @export
 surfaceAreaNeighborPercentage <- function(parcellation, parcel = NA, 
   shape.mat = neighborShape_Box27()){
   

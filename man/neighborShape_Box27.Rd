@@ -12,7 +12,7 @@ a matrix with 3 columns
 \description{
 This is a function needed for many functions such as 
 \code{neighborVoxel2Voxel} to determine how neighbors are defined.
-This will typically be the \code{shape} argument to many such functions.
+This will typically be the \code{shape.mat} argument to many such functions.
 }
 \details{
 This shape is defined in such a way that if the voxel in question is

@@ -71,7 +71,7 @@ neighborVoxel2Voxel <- function(parcellation, voxel = NA,
 #' 
 #' This is a function needed for many functions such as 
 #' \code{neighborVoxel2Voxel} to determine how neighbors are defined.
-#' This will typically be the \code{shape} argument to many such functions.
+#' This will typically be the \code{shape.mat} argument to many such functions.
 #' 
 #' This shape is defined in such a way that if the voxel in question is
 #' the middle voxel of a 3x3x3 cube, all the voxels consisting of the 3x3x3
@@ -100,7 +100,7 @@ neighborShape_Box27 <- function(){
 #' 
 #' This is a function needed for many functions such as 
 #' \code{neighborVoxel2Voxel} to determine how neighbors are defined.
-#' This will typically be the \code{shape} argument to many such functions.
+#' This will typically be the \code{shape.mat} argument to many such functions.
 #' 
 #' This shape is defined in such a way that if the voxel in question is
 #' a 6-sided die, the neighboring voxels are the 6 voxels immediately bordering

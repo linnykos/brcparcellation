@@ -1,3 +1,14 @@
+#' Intersect two parcellations
+#' 
+#' This function creates a new parcellation from two existing parcellations
+#' where voxels in the new parcellation are in the same parcel if and only if
+#' the voxels were in the same parcels within each of the two input parcellations.
+#'
+#' @param parcellation1 a \code{BrcParcellation} object
+#' @param parcellation2 a \code{BrcParcellation} object
+#'
+#' @return a \code{BrcParcellation} object
+#' @export
 intersectParcellation <- function(parcellation1, parcellation2){
   .is.BrcParcellation(parcellation1); .is.BrcParcellation(parcellation2)
   if(all(parcellation1$dim3d != parcellation2$dim3d)){
